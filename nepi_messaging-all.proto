@@ -12,24 +12,23 @@ message SystemStatusNEPIBot {
 
 // Sys status components provided by device
 message SystemStatusDevice {
-	google.protobuf.Timestamp timestamp = 1; // Time at which this message was created 
-	string serial_num = 2; // Arbitrary string as a unique identifier for this device
-	sint32 navsat_fix_time_offset = 3; // Milliseconds since timestamp for included navigation fix (negative value indicates prior to timestamp)
+	google.protobuf.Timestamp timestamp = 1; // Time at which this message was created
+	sint32 navsat_fix_time_offset = 2; // Milliseconds since timestamp for included navigation fix (negative value indicates prior to timestamp)
 	oneof latitude {
-		float defined_latitude = 4; // Latitude in degrees, Positive north of equator
+		float defined_latitude = 3; // Latitude in degrees, Positive north of equator
 	}
 	oneof longitude {
-		float defined_longitude = 5; // Longitude in degrees, Positive east of Prime Meridian
+		float defined_longitude = 4; // Longitude in degrees, Positive east of Prime Meridian
 	}
 	oneof heading {
-		uint32 defined_heading = 6; // Heading in millidegrees	
+		uint32 defined_heading = 5; // Heading in millidegrees
 	}
-	bool heading_true_north = 7; // True indicates heading is w.r.t. true north, false indicates w.r.t. magnetic north
-	sint32 roll = 8; // Roll angle in millidegrees
-	sint32 pitch = 9; // Pitch angle in millidegrees
-	sint32 temperature = 10; // Main temperature, decidegrees C
-	uint32 power_state = 11; // Represents current power state, user specified (typically as a percentage of total 0 - 100)
-	bytes device_status = 12; // Device defined byte stream; passed directly without parsing/interpretation by NEPI
+	bool heading_true_north = 6; // True indicates heading is w.r.t. true north, false indicates w.r.t. magnetic north
+	sint32 roll = 7; // Roll angle in millidegrees
+	sint32 pitch = 8; // Pitch angle in millidegrees
+	sint32 temperature = 9; // Main temperature, decidegrees C
+	uint32 power_state = 10; // Represents current power state, user specified (typically as a percentage of total 0 - 100)
+	bytes device_status = 11; // Device defined byte stream; passed directly without parsing/interpretation by NEPI
 }
 
 // The Complete NEPI System Status Message
@@ -41,7 +40,7 @@ message SystemStatus {
 
 // (Meta)data components provided by NEPI-BOT
 message DataMsgNEPIBot {
-	uint32 sys_status_id = 1; // Unique identifier for the corresponding SystemStatus message (to correlate Data and SystemStatus)	
+	uint32 sys_status_id = 1; // Unique identifier for the corresponding SystemStatus message (to correlate Data and SystemStatus)
 }
 
 // (Meta)data components provided by Device
@@ -90,7 +89,7 @@ message NEPIMsgRouting {
 		NEPI = 0;
 		DEVICE = 1;
 	}
-	Subsystem subsystem = 2; // Originator (DO) or target (DT) of the message 	
+	Subsystem subsystem = 2; // Originator (DO) or target (DT) of the message
 }
 
 message CfgMsg {
@@ -105,11 +104,11 @@ message GeneralMsg { // Alerts, Commands, Etc.
 
 message NEPIMsg {
 	uint32 comm_index = 1; // Server-bot coordination index if in use
+	bytes nuid = 2; // NEPI unique identifier for the sender (DO) or receiver (DT) of the message
 	oneof msg {
-		SystemStatus sys_status = 2;
-		DataMsg data_msg = 3;
-		CfgMsg cfg_msg = 4;
-		GeneralMsg gen_msg = 5;
-	} 
+		SystemStatus sys_status = 3;
+		DataMsg data_msg = 4;
+		CfgMsg cfg_msg = 5;
+		GeneralMsg gen_msg = 6;
+	}
 }
-

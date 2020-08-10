@@ -41,6 +41,7 @@ message SystemStatus {
 // (Meta)data components provided by NEPI-BOT
 message DataMsgNEPIBot {
 	uint32 sys_status_id = 1; // Unique identifier for the corresponding SystemStatus message (to correlate Data and SystemStatus)
+	string file_extension = 2; // Indicates the extension (if any) to add to the file constructed from DataMsgDevice::payload
 }
 
 // (Meta)data components provided by Device
@@ -84,7 +85,7 @@ message SystemValue {
 
 // NEPI
 message NEPIMsgRouting {
-	uint32 comm_index = 1; // Server/Bot Coordination Mechanism if in effect
+	uint32 response_index = 1; // Contains the request comm index if this is a response
 	enum Subsystem {
 		NEPI = 0;
 		DEVICE = 1;
